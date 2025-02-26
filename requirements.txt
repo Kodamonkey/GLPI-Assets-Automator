@@ -1,0 +1,9 @@
+tk
+pandas
+opencv-python
+pyzbar
+python-dotenv
+urllib3
+requests
+numpy
+openpyxl
