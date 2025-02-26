@@ -55,7 +55,16 @@ class GLPIApp:
         self.style.theme_use("clam")  # Puedes cambiar el tema a "clam", "alt", "default", "classic"
         self.configure_styles()
         self.create_widgets()
-        self.obtener_datos_glpi_a_excel(self.obtener_token_sesion())
+
+        try:
+            session_token = self.obtener_token_sesion()
+            if session_token:
+                 self.obtener_datos_glpi_a_excel(self.obtener_token_sesion())
+        except Exception as e:
+            print(f"Error al conectar con GLPI: {str(e)}")
+            messagebox.showerror("Error", f"No se pudo conectar con GLPI, NO PODRAS REALIZAR SINCRONIZACIONES AUN: {str(e)}")
+
+       
 
     def configure_styles(self):
         # Estilo del marco
@@ -303,11 +312,18 @@ class GLPIApp:
             "Authorization": f"user_token {USER_TOKEN}",
             "App-Token": APP_TOKEN,
         }
-        response = requests.get(f"{GLPI_URL}/initSession", headers=headers, verify=False)
-        if response.status_code == 200:
-            return response.json().get("session_token")
-        else:
-            messagebox.showerror("Error", f"Error al iniciar sesión: {response.status_code}")
+        try:
+            response = requests.get(f"{GLPI_URL}/initSession", headers=headers, verify=False)
+            if response.status_code == 200:
+                print("Sesión iniciada correctamente.")
+                return response.json().get("session_token")
+            else:
+                print(f"Error al iniciar sesión: {response.status_code}")
+                messagebox.showerror("Error", f"Error al iniciar sesión: {response.status_code}")
+                return None
+        except requests.exceptions.RequestException as e:
+            print(f"Error al conectar con la API de GLPI: {e}")
+            messagebox.showerror("Error", f"Error al conectar con la API de GLPI: {e}")
             return None
     
     def guardar_plantilla_txt(self, asset_data, nombre_archivo):
@@ -1585,7 +1601,6 @@ class GLPIApp:
                 print(f"Error {response.json()}")
             except json.JSONDecodeError:
                 print(f"Error {response.text}")
-
 
     def crear_consumible(self, session_token, nombre, inventory_number, location, stock_target):
         """
