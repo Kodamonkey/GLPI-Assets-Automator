@@ -1,1 +1,24 @@
 .env
+
+# Ignore All (xlsx) files
+#*.xlsx
+
+*.log
+
+*.pyc
+
+__pycache__/
+
+libiconv.dll
+
+libzbar-64.dll
+
+Templates/
+
+*.spec
+
+dist/
+
+build/
+
+*.xlsx
