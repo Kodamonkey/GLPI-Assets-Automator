@@ -7,3 +7,4 @@ urllib3
 requests
 numpy
 openpyxl
+zbar

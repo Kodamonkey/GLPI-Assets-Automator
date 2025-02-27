@@ -7,6 +7,26 @@ GLPI Assets Automator es una aplicación para gestionar activos de TI utilizando
 - Python 3.7 o superior
 - pip (gestor de paquetes de Python)
 
+En macOS con arquitectura Intel o Apple Silicon (M1/M2/M3)
+
+- Homebrew (gestor de paquetes para macOS)
+
+## Instalación en macOS de ser necesario
+
+1. Instalar Homebrew (si no está instalado)
+
+Ejecuta en la terminal:
+
+    ```sh
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" 
+    ```
+
+Instalar zbar
+
+    ```sh
+    brew install zbar
+    ```
+
 ## Instalación
 
 1. Clona el repositorio o descarga los archivos del proyecto.
@@ -21,6 +41,11 @@ GLPI Assets Automator es una aplicación para gestionar activos de TI utilizando
 
     ```sh
     pip install -r requirements.txt
+    ```
+    o
+
+    ```sh
+    pip3 install -r requirements.txt
     ```
 
 ## Configuración
@@ -61,6 +86,10 @@ GLPI Assets Automator es una aplicación para gestionar activos de TI utilizando
 
     ```sh
     python app_dirty.py
+    ```
+    o
+    ```sh
+    python3 app_dirty.py
     ```
 
 2. La interfaz gráfica de usuario (GUI) se abrirá. Desde allí, puedes realizar las siguientes acciones:

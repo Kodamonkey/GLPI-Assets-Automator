@@ -64,8 +64,6 @@ class GLPIApp:
             print(f"Error al conectar con GLPI: {str(e)}")
             messagebox.showerror("Error", f"No se pudo conectar con GLPI, NO PODRAS REALIZAR SINCRONIZACIONES AUN: {str(e)}")
 
-       
-
     def configure_styles(self):
         # Estilo del marco
         self.style.configure("TFrame", background="#E0F7FA")
