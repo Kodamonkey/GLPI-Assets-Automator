@@ -116,7 +116,7 @@ Si quieres escanear QR desde un **celular Android**, usa la app **IP Webcam**:
 1. **Descarga** la app desde [Google Play](https://play.google.com/store/apps/details?id=com.pas.webcam).  
 2. **Abre la app** y presiona ```Start Server```.  
 3. **Copia la URL** que aparece (ejemplo: ```http://192.168.1.10:8080/video\```).  
-4. **Pon esa URL en el archivo \`.env\`**, en la variable \`IP_CAM_URL\`.  
+4. **Pon esa URL en el archivo .env**, en la variable \`IP_CAM_URL\`.  
 
 Si usas **una cámara integrada o USB**, la app usará la predeterminada.  
 
