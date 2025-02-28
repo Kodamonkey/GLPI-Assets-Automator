@@ -27,6 +27,13 @@ Instalar zbar
     brew install zbar
     ```
 
+Agregar zbar al PATH de Python
+
+    ```sh
+    export DYLD_FALLBACK_LIBRARY_PATH=$(brew --prefix zbar)/lib:$DYLD_FALLBACK_LIBRARY_PATH
+    export PATH="/opt/homebrew/bin:$PATH"
+    ```
+
 ## Instalación
 
 1. Clona el repositorio o descarga los archivos del proyecto.
