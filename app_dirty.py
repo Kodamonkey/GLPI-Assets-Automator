@@ -55,7 +55,7 @@ class GLPIApp:
         self.style.theme_use("clam")  # Puedes cambiar el tema a "clam", "alt", "default", "classic"
         self.configure_styles()
         self.create_widgets()
-
+        self.obtener_id_consumible(self.obtener_token_sesion(), "Mochilas Kensington", "118")
         try:
             session_token = self.obtener_token_sesion()
             if session_token:
@@ -801,7 +801,7 @@ class GLPIApp:
                         for qr in qr_codes:
                             qr_data = qr.data.decode('utf-8')
                             flag = self.es_codigo_valido(qr_data)
-                            if flag in ["dell", "mac", "monitor"]:
+                            if flag in ["dell", "mac", "monitor", "consumible"]:
                                 result_queue.put(("info", f"Código QR {flag} escaneado: \n{qr_data}"))
                                 result_queue.put(("data", qr_data))
                                 camera_open = False
@@ -920,6 +920,13 @@ class GLPIApp:
             r'^(SN|S/N)\s*[A-Z0-9]{7,12}$',  # Ejemplo: SN 5JH34X1
         ]
 
+        patron_valido_consumible = [
+            # Consumibles: 6-12 caracteres alfanuméricos
+            "Mochilas Kensington",
+            "Mouse Logitech",
+            "Teclado Dell",
+        ]
+
         for patron in patron_valido_dell:
             if re.match(patron, qr_data):
                 return "dell"
@@ -931,6 +938,10 @@ class GLPIApp:
         for patron in patron_valido_monitor:
             if re.match(patron, qr_data):
                 return "monitor"
+            
+        for patron in patron_valido_consumible:
+            if qr_data in patron_valido_consumible:
+                return "consumible"
         
         return "invalido"
 
@@ -1524,21 +1535,24 @@ class GLPIApp:
             messagebox.showinfo("Información", "--- Agregar Consumible al Stock ---")
 
             # Obtener número de inventario (QR o manual)
-            inventory_number = self.obtener_numero_inventario()
-            if not inventory_number:
-                return  # Error ya manejado en `obtener_numero_inventario`
+            #inventory_number = self.obtener_numero_inventario()
+            nombre_consumible = self.obtener_numero_inventario()
+            #if not inventory_number:
+            #    return  # Error ya manejado en `obtener_numero_inventario`
 
-            nombre_consumible = simpledialog.askstring("Input", "Ingrese el nombre del consumible: ").strip()
+            #nombre_consumible = simpledialog.askstring("Input", "Ingrese el nombre del consumible: ").strip()
             location = simpledialog.askstring("Input", "Ingrese la ubicación del consumible: ").strip()
             cantidad = int(simpledialog.askstring("Input", "Ingrese la cantidad a agregar al stock: "))
 
 
             if type_register == "Excel":
                 # Registrar en Excel
-                self.agregar_consumible_en_excel(nombre_consumible, inventory_number, location, cantidad)
+                #self.agregar_consumible_en_excel(nombre_consumible, inventory_number, location, cantidad)
+                self.agregar_consumible_en_excel(nombre_consumible, nombre_consumible, location, cantidad)
             elif type_register == "GLPI":
                 # Registrar en GLPI
-                self.agregar_consumible_en_glpi(nombre_consumible, inventory_number, location, cantidad)
+                #self.agregar_consumible_en_glpi(nombre_consumible, inventory_number, location, cantidad)
+                self.agregar_consumible_en_glpi(nombre_consumible, nombre_consumible, location, cantidad)
 
         except Exception as e:
             messagebox.showerror("Error", f"Se produjo un error inesperado: {str(e)}")
@@ -1729,6 +1743,7 @@ class GLPIApp:
         
         if response.status_code == 200:
             consumibles = response.json()
+            print(f"Consumibles encontrados: {json.dumps(consumibles, indent=4)}")
             for consumible in consumibles:
                 # Convertir a cadena de texto y limpiar espacios en blanco
                 consumible_name = str(consumible.get("name", "")).strip().lower()

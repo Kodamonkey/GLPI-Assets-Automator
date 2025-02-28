@@ -171,3 +171,30 @@ Se abrirá la aplicación, desde donde puedes:
 ✔ Si usas macOS, revisa que **ZBar** esté instalado correctamente.  
 
 
+### 💡 3. Error en macOS con ZBar:  
+Si al ejecutar la aplicación en una Mac con Apple Silicon (**M1, M2, M3**) aparece este error:  
+```
+OSError: dlopen(/usr/local/opt/zbar/lib/libzbar.dylib, 0x0006): tried: '/usr/local/opt/zbar/lib/libzbar.dylib' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64e' or 'arm64'))
+```
+🔹 **Solución:**  
+1️⃣ **Eliminar la versión incorrecta de ZBar:**  
+```
+brew uninstall zbar
+```
+2️⃣ **Forzar la instalación de ZBar para ARM:**  
+```
+arch -arm64 brew install zbar
+```
+3️⃣ **Actualizar variables de entorno:**  
+```
+export DYLD_FALLBACK_LIBRARY_PATH=$(brew --prefix zbar)/lib:$DYLD_FALLBACK_LIBRARY_PATH
+export PATH="/opt/homebrew/bin:$PATH"
+```
+4️⃣ **Cerrar y reabrir la terminal** o ejecutar:  
+```
+source ~/.zshrc
+```
+5️⃣ **Probar la aplicación nuevamente:**  
+```
+python3 app_dirty.py
+```
