@@ -94,7 +94,7 @@ Es la URL de tu GLPI. Ejemplos:
 - ```http://tu-servidor-glpi.com\```
 Para obtenerla:  
 1. Inicia sesión en **GLPI** como administrador.  
-2. Ve a ```Setup > General\` > API```.  
+2. Ve a ```Setup > General > API```.  
 3. Copia la **URL of the API**.  
 
 #### 📌 **USER_TOKEN**  
@@ -105,7 +105,7 @@ Para obtenerlo:
 
 #### 📌 **APP_TOKEN**  
 1. Inicia sesión en **GLPI** como administrador.  
-2. Ve a ```Setup > \`General\` > API.```  
+2. Ve a ```Setup > General > API.```  
 3. En la parte final, presiona ```Add API client``` y genera un nuevo token.  
 
 ---
