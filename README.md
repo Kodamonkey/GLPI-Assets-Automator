@@ -159,7 +159,7 @@ Se abrirá la aplicación, desde donde puedes:
 
 ---
 
-## ❓ Errores frecuentes  
+## ❓ Preguntas Frecuentes  
 
 ### 💡 1. ¿Qué pasa si mi GLPI no permite conexión desde la API?  
 ✔ Asegúrate de haber activado la API en \`Setup > General > API\`.  
@@ -170,3 +170,15 @@ Se abrirá la aplicación, desde donde puedes:
 ✔ Prueba con la app **IP Webcam** en Android.  
 ✔ Si usas macOS, revisa que **ZBar** esté instalado correctamente.  
 
+---
+
+## 🛠 Soporte  
+
+Si tienes problemas o sugerencias, crea un **issue** en el repositorio de GitHub o contáctame.  
+
+📧 Email: [tuemail@example.com](mailto:tuemail@example.com)  
+🐙 GitHub: [tu-usuario](https://github.com/tu-usuario)  
+
+---
+
+Ahora sí, no hay excusas. ¡A usarlo! 🚀
