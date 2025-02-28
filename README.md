@@ -1,127 +1,184 @@
-# GLPI Assets Automator
+# GLPI Assets Automator 🚀  
 
-GLPI Assets Automator es una aplicación para gestionar activos de TI utilizando GLPI y Excel. Permite registrar, actualizar y sincronizar activos entre GLPI y un archivo Excel.
+GLPI Assets Automator es una aplicación para gestionar activos de TI utilizando **GLPI** y **Excel**. Permite:  
+✅ Registrar laptops, monitores y consumibles en Excel y GLPI.  
+✅ Sincronizar datos entre Excel y GLPI.  
+✅ Escanear códigos QR para registrar activos.  
+✅ Entregar activos a usuarios.  
 
-## Requisitos
+---
 
-- Python 3.7 o superior
-- pip (gestor de paquetes de Python)
+## 📌 Requisitos  
 
-En macOS con arquitectura Intel o Apple Silicon (M1/M2/M3)
+Para que la aplicación funcione correctamente, necesitas lo siguiente:  
 
-- Homebrew (gestor de paquetes para macOS)
+### 🔹 General  
+✔ **Python 3.7 o superior** ([Descargar aquí](https://www.python.org/downloads/))  
+✔ **pip** (gestor de paquetes de Python, viene con Python)  
 
-## Instalación en macOS de ser necesario
+### 🔹 En macOS (Intel o Apple Silicon)  
+✔ **Homebrew** (gestor de paquetes para macOS)  
+✔ **ZBar** (para leer códigos QR)  
 
-1. Instalar Homebrew (si no está instalado)
+Si usas **Windows** o **Linux**, solo necesitas Python y pip.  
 
-Ejecuta en la terminal:
+---
 
-    ```sh
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" 
-    ```
+## 🔧 Instalación en macOS (solo si es necesario)  
 
-Instalar zbar
+Si usas **Windows o Linux**, puedes saltar esta sección.  
 
-    ```sh
-    brew install zbar
-    ```
+### 1️⃣ Instalar Homebrew (si no está instalado)  
+Abre la Terminal y ejecuta este comando:  
+\`\`\`sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" 
+\`\`\`
 
-Agregar zbar al PATH de Python
+### 2️⃣ Instalar ZBar  
+\`\`\`sh
+brew install zbar
+\`\`\`
 
-    ```sh
-    export DYLD_FALLBACK_LIBRARY_PATH=$(brew --prefix zbar)/lib:$DYLD_FALLBACK_LIBRARY_PATH
-    export PATH="/opt/homebrew/bin:$PATH"
-    ```
+### 3️⃣ Agregar ZBar al PATH de Python  
+Ejecuta esto en la Terminal:  
+\`\`\`sh
+export DYLD_FALLBACK_LIBRARY_PATH=$(brew --prefix zbar)/lib:$DYLD_FALLBACK_LIBRARY_PATH
+export PATH="/opt/homebrew/bin:$PATH"
+\`\`\`
 
-## Instalación
+---
 
-1. Clona el repositorio o descarga los archivos del proyecto.
+## 🚀 Instalación de la Aplicación  
 
-2. Navega al directorio del proyecto:
+### 1️⃣ Descargar el código  
+Clona el repositorio o descarga los archivos:  
+\`\`\`sh
+git clone https://github.com/tu-usuario/GLPI-Assets-Automator.git
+\`\`\`
+Luego, entra en la carpeta del proyecto:  
+\`\`\`sh
+cd GLPI-Assets-Automator
+\`\`\`
 
-    ```sh
-    cd /path/to/GLPI-Assets-Automator
-    ```
+### 2️⃣ Instalar dependencias  
+Ejecuta:  
+\`\`\`sh
+pip install -r requirements.txt
+\`\`\`
+Si tienes problemas, prueba con:  
+\`\`\`sh
+pip3 install -r requirements.txt
+\`\`\`
 
-3. Instala las dependencias:
+---
 
-    ```sh
-    pip install -r requirements.txt
-    ```
-    o
+## ⚙️ Configuración  
 
-    ```sh
-    pip3 install -r requirements.txt
-    ```
+Antes de ejecutar la aplicación, necesitamos configurar algunas cosas.  
 
-## Configuración
+### 1️⃣ Crear el archivo `.env`  
+Dentro de la carpeta del proyecto, crea un archivo llamado **`.env`** con este contenido:  
+\`\`\`env
+GLPI_URL=http://your-glpi-url
+USER_TOKEN=your-user-token
+APP_TOKEN=your-app-token
+PATH_EXCEL_ACTIVOS=path/to/activos.xlsx
+PATH_EXCEL_CONSUMIBLES=path/to/consumibles.xlsx
+IP_CAM_URL=http://your-ip-cam-url
+\`\`\`
 
-1. Crea un archivo [.env](http://_vscodecontentref_/1) en el directorio del proyecto con las siguientes variables:
+### 2️⃣ Obtener los tokens de GLPI  
+#### 📌 **GLPI_URL**  
+Es la URL de tu GLPI. Ejemplos:  
+- \`http://localhost/glpi\`  
+- \`http://tu-servidor-glpi.com\`  
+Para obtenerla:  
+1. Inicia sesión en **GLPI** como administrador.  
+2. Ve a \`Setup\` > \`General\` > \`API\`.  
+3. Copia la **URL of the API**.  
 
-    ```env
-    GLPI_URL=http://your-glpi-url
-    USER_TOKEN=your-user-token
-    APP_TOKEN=your-app-token
-    PATH_EXCEL_ACTIVOS=path/to/activos.xlsx
-    PATH_EXCEL_CONSUMIBLES=path/to/consumibles.xlsx
-    IP_CAM_URL=http://your-ip-cam-url (en la interfaz de la app "IP Webcam")
-    ```
+#### 📌 **USER_TOKEN**  
+Para obtenerlo:  
+1. Inicia sesión en **GLPI**.  
+2. Ve a \`My Settings\` (esquina superior derecha).  
+3. En \`Remote access keys\`, genera un **API Token** y cópialo.  
 
-2. Obtén las  `variablesGLPI_URL`, `USER_TOKEN` y `APP_TOKEN` desde GLPI:
+#### 📌 **APP_TOKEN**  
+1. Inicia sesión en **GLPI** como administrador.  
+2. Ve a \`Setup\` > \`General\` > \`API\`.  
+3. En la parte final, presiona \`Add API client\` y genera un nuevo token.  
 
-    - **GLPI_URL**: Es la URL base de tu instancia de GLPI. Por ejemplo, `http://localhost/glpi` o `http://your-glpi-domain`:
-        1. Inicia sesión en tu instancia de GLPI como administrador.
-        2. Ve a `Setup` > `General` > `API`.
-        3. Copia `URL of the API`
+---
 
-    - **USER_TOKEN**: Para obtener el token de usuario, sigue estos pasos:
-        1. Inicia sesión en tu instancia de GLPI.
-        2. Ve a `My Settings` (usualmente accesible desde la esquina superior derecha).
-        3. En la sección `Remote access keys`, genera un nuevo `API token` si no tienes uno. Copia el token generado.
+## 📸 Configuración de Cámara para Escanear Códigos QR  
 
-    - **APP_TOKEN**: Para obtener el token de la aplicación, sigue estos pasos:
-        1. Inicia sesión en tu instancia de GLPI como administrador.
-        2. Ve a `Setup` > `General` > `API`.
-        3. En la sección final apreta `Add API client` y genera un nuevo token para tu aplicación. Copia el token generado.
+Si quieres escanear QR desde un **celular Android**, usa la app **IP Webcam**:  
+1. **Descarga** la app desde [Google Play](https://play.google.com/store/apps/details?id=com.pas.webcam).  
+2. **Abre la app** y presiona \`Start Server\`.  
+3. **Copia la URL** que aparece (ejemplo: \`http://192.168.1.10:8080/video\`).  
+4. **Pon esa URL en el archivo \`.env\`**, en la variable \`IP_CAM_URL\`.  
 
-3. Asegúrate de que los archivos Excel especificados en `PATH_EXCEL_ACTIVOS` y `PATH_EXCEL_CONSUMIBLES` existan. Si no existen, la aplicación los creará automáticamente.
+Si usas **una cámara integrada o USB**, la app usará la predeterminada.  
 
-## Uso
+---
 
-1. Ejecuta la aplicación:
+## ▶️ Uso  
 
-    ```sh
-    python app_dirty.py
-    ```
-    o
-    ```sh
-    python3 app_dirty.py
-    ```
+### 1️⃣ Ejecutar la aplicación  
+Abre la Terminal, navega a la carpeta del proyecto y ejecuta:  
+\`\`\`sh
+python app_dirty.py
+\`\`\`
+Si falla, prueba con:  
+\`\`\`sh
+python3 app_dirty.py
+\`\`\`
 
-3. Camara para Escanear
+### 2️⃣ Usar la interfaz  
+Se abrirá la aplicación, desde donde puedes:  
+✅ Registrar laptops, monitores y consumibles en Excel y GLPI.  
+✅ Sincronizar datos entre Excel y GLPI.  
+✅ Escanear códigos QR para registrar activos.  
+✅ Entregar activos a usuarios.  
 
-    - Instalar IP Webcam app
-    - Iniciar servidor en la aplicacion
+---
 
-2. La interfaz gráfica de usuario (GUI) se abrirá. Desde allí, puedes realizar las siguientes acciones:
+## 📦 Dependencias  
 
-    - Registrar laptops, monitores y consumibles en Excel y GLPI.
-    - Sincronizar datos entre Excel y GLPI.
-    - Escanear códigos QR para registrar activos.
-    - Entregar activos a usuarios.
+| Biblioteca       | Función |
+|-----------------|---------|
+| \`tkinter\`       | Interfaz gráfica (GUI) |
+| \`pandas\`        | Manejo de datos en Excel |
+| \`opencv-python\` | Procesamiento de imágenes y captura de video |
+| \`pyzbar\`        | Decodificación de códigos QR |
+| \`requests\`      | Conexión con GLPI |
+| \`python-dotenv\` | Manejo de variables de entorno |
+| \`urllib3\`       | Solicitudes HTTP |
+| \`numpy\`         | Computación numérica |
+| \`openpyxl\`      | Manejo de archivos Excel |
 
-## Dependencias
+---
 
-Las principales dependencias del proyecto son:
+## ❓ Preguntas Frecuentes  
 
-- `tkinter`: Biblioteca estándar de Python para interfaces gráficas.
-- `pandas`: Biblioteca para manipulación y análisis de datos.
-- `opencv-python`: Biblioteca para procesamiento de imágenes y captura de video.
-- `pyzbar`: Biblioteca para decodificación de códigos QR.
-- `requests`: Biblioteca para realizar solicitudes HTTP.
-- `python-dotenv`: Biblioteca para cargar variables de entorno desde un archivo [.env](http://_vscodecontentref_/2).
-- `urllib3`: Biblioteca para manejar solicitudes HTTP.
-- `numpy`: Biblioteca para computación numérica.
-- `openpyxl`: Biblioteca para leer y escribir archivos Excel.
+### 💡 1. ¿Qué pasa si mi GLPI no permite conexión desde la API?  
+✔ Asegúrate de haber activado la API en \`Setup > General > API\`.  
+✔ Si sigue sin funcionar, revisa la configuración de permisos en GLPI.  
 
+### 💡 2. ¿Por qué la cámara no detecta los códigos QR?  
+✔ Asegúrate de que la cámara tiene buena iluminación.  
+✔ Prueba con la app **IP Webcam** en Android.  
+✔ Si usas macOS, revisa que **ZBar** esté instalado correctamente.  
+
+---
+
+## 🛠 Soporte  
+
+Si tienes problemas o sugerencias, crea un **issue** en el repositorio de GitHub o contáctame.  
+
+📧 Email: [tuemail@example.com](mailto:tuemail@example.com)  
+🐙 GitHub: [tu-usuario](https://github.com/tu-usuario)  
+
+---
+
+Ahora sí, no hay excusas. ¡A usarlo! 🚀
