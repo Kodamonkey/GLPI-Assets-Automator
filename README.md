@@ -58,7 +58,7 @@ Instalar zbar
     APP_TOKEN=your-app-token
     PATH_EXCEL_ACTIVOS=path/to/activos.xlsx
     PATH_EXCEL_CONSUMIBLES=path/to/consumibles.xlsx
-    IP_CAM_URL=http://your-ip-cam-url
+    IP_CAM_URL=http://your-ip-cam-url (en la interfaz de la app "IP Webcam")
     ```
 
 2. Obtén las  `variablesGLPI_URL`, `USER_TOKEN` y `APP_TOKEN` desde GLPI:
@@ -91,6 +91,11 @@ Instalar zbar
     ```sh
     python3 app_dirty.py
     ```
+
+3. Camara para Escanear
+
+    - Instalar IP Webcam app
+    - Iniciar servidor en la aplicacion
 
 2. La interfaz gráfica de usuario (GUI) se abrirá. Desde allí, puedes realizar las siguientes acciones:
 
